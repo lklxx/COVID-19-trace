@@ -4,6 +4,7 @@ const instance = axios.create({ baseURL: 'http://localhost:9090' })
 
 const trace_store = async (message) => {
   const { data, status } = await instance.post('/trace-store', message)
+//   if (status == 200) 
   return data
 }
 

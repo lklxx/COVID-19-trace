@@ -12,7 +12,7 @@ class App extends Component {
 
     test_trace_store = async () => {
       var uid = "kaikai"
-      var trace1 = { class: "B", place: "IM Lab", time: "988200" }
+      var trace1 = { class: "B", place: "IM Lab", time: "988200" }  // % 2592000  (30 days)
       var trace2 = { class: "B", place: "IM Lab", time: "990000" }
       var trace3 = { class: "B", place: "IM Lab", time: "991800" }
       var traceList = [trace1, trace2, trace3]
@@ -38,6 +38,7 @@ class App extends Component {
     }
 
     infectedReport() {
+      // 
       // infected_store
     }
 
