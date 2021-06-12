@@ -8,15 +8,13 @@ import (
     "cloud.google.com/go/bigtable"
 )
 
-type InfectedTrace struct {
+type Trace struct {
     Class   string
     Place   string
+    Time    string
 }
 
-type InfectedTimeTraceList struct {
-    Time         string
-    InfectedTraceList   []InfectedTrace
-}
+type TraceList []Trace
 
 var adminClient *bigtable.AdminClient
 var client *bigtable.Client
@@ -39,10 +37,8 @@ func InitDB(ac *bigtable.AdminClient, c *bigtable.Client, t []string) {
     tables = t
 }
 
-func HandleInfectedTraceStore(infectedTimeTraceList InfectedTimeTraceList) []error {
+func HandleInfectedStore(traceList TraceList) []error {
 
-    time := infectedTimeTraceList.Time
-    infectedTraceList := infectedTimeTraceList.InfectedTraceList
     ctx := context.Background()
     var errs []error
 
@@ -59,15 +55,15 @@ func HandleInfectedTraceStore(infectedTimeTraceList InfectedTimeTraceList) []err
     // Issue mutations
 
     tbl := client.Open(tableName)
-    muts := make([]*bigtable.Mutation, len(infectedTraceList))
-    rowKeys := make([]string, len(infectedTraceList))
+    muts := make([]*bigtable.Mutation, len(traceList))
+    rowKeys := make([]string, len(traceList))
 
-    for i, trace := range infectedTraceList {
+    for i, trace := range traceList {
         muts[i] = bigtable.NewMutation()
         columnFamilyName := trace.Class
 		columnName := fmt.Sprintf("%s", trace.Place)
         muts[i].Set(columnFamilyName, columnName, bigtable.Now(), []byte("1"))
-        rowKeys[i] = time
+        rowKeys[i] = trace.Time
     }
 
     // Apply mutations

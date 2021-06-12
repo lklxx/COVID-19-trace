@@ -62,14 +62,6 @@ func HandleTraceFetch(uid string) (UserTraceList, []error) {
     tbl := client.Open(tableName)
     rowKey := uid
 
-    // for i, trace := range traceList {
-    //     muts[i] = bigtable.NewMutation()
-    //     columnFamilyName := trace.Class
-    //     columnName := fmt.Sprintf("%s#%s", trace.Place, trace.Time)
-    //     muts[i].Set(columnFamilyName, columnName, bigtable.Now(), []byte("1"))
-    //     rowKeys[i] = uid
-    // }
-
 	row, err := tbl.ReadRow(ctx, rowKey)
 	if err != nil {
 		log.Fatalf("Could not read row: %v", err)
@@ -84,8 +76,6 @@ func HandleTraceFetch(uid string) (UserTraceList, []error) {
 			traceList = append(traceList, trace)
 		}
 	}
-
-    // Apply mutations
 
 	userTraceList.TraceList = traceList
     return userTraceList, errs

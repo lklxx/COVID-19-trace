@@ -14,22 +14,18 @@ import (
 
 func infected_store(c *gin.Context) {
 
-    infectedTimeTraceList := db.InfectedTimeTraceList{}
-	c.BindJSON(&infectedTimeTraceList)
-	log.Printf("%v", &infectedTimeTraceList)
+    traceList := db.TraceList{}
+	c.BindJSON(&traceList)
+	log.Printf("%v", &traceList)
 
-    time := infectedTimeTraceList.Time
-    infectedTraceList := infectedTimeTraceList.InfectedTraceList
-
-    fmt.Println("time:", time)
-    fmt.Println("infected trace: [")
-    for i := range infectedTraceList {
-        fmt.Println(infectedTraceList[i].Class, infectedTraceList[i].Place, ",")
+    fmt.Println("trace: [")
+    for i := range traceList {
+        fmt.Println(traceList[i].Class, traceList[i].Place, traceList[i].Time, ",")
     }
     fmt.Println("]")
 
     // db mutation
-    err := db.HandleInfectedTraceStore(infectedTimeTraceList)
+    err := db.HandleInfectedStore(traceList)
     res := "success"
     if len(err) != 0 {
         res = "failed"

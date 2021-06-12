@@ -1,2 +1,4 @@
 backend/trace-store/.env
 backend/trace-fetch/.env
+backend/infected-store/.env
+backend/infected-match/.env
