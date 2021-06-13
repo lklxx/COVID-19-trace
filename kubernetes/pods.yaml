@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infected-match
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: infected-match
+    spec:
+      containers:
+        - name: infected-match
+          image: gcr.io/covid-19-trace-316609/backend_infected-match:v1.0.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: PROJECT_ID
+              value: covid-19-trace-316609
+            - name: INSTANCE_ID
+              value: bigtable
+  selector:
+    matchLabels:
+      app: infected-match
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infected-store
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: infected-store
+    spec:
+      containers:
+        - name: infected-store
+          image: gcr.io/covid-19-trace-316609/backend_infected-store:v1.0.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: PROJECT_ID
+              value: covid-19-trace-316609
+            - name: INSTANCE_ID
+              value: bigtable
+  selector:
+    matchLabels:
+      app: infected-store
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-fetch
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: trace-fetch
+    spec:
+      containers:
+        - name: trace-fetch
+          image: gcr.io/covid-19-trace-316609/backend_trace-fetch:v1.0.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: PROJECT_ID
+              value: covid-19-trace-316609
+            - name: INSTANCE_ID
+              value: bigtable
+  selector:
+    matchLabels:
+      app: trace-fetch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-store
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: trace-store
+    spec:
+      containers:
+        - name: trace-store
+          image: gcr.io/covid-19-trace-316609/backend_trace-store:v1.0.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: PROJECT_ID
+              value: covid-19-trace-316609
+            - name: INSTANCE_ID
+              value: bigtable
+  selector:
+    matchLabels:
+      app: trace-store

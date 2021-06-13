@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: covid-19-trace-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /infected_match
+        pathType: Prefix
+        backend:
+          service:
+            name: infected-match-svc
+            port:
+              number: 80
+      - path: /infected_store
+        pathType: Prefix
+        backend:
+          service:
+            name: infected-store-svc
+            port:
+              number: 80
+      - path: /trace_fetch
+        pathType: Prefix
+        backend:
+          service:
+            name: trace-fetch-svc
+            port:
+              number: 80
+      - path: /trace_store
+        pathType: Prefix
+        backend:
+          service:
+            name: trace-store-svc
+            port:
+              number: 80

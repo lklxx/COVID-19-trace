@@ -37,6 +37,12 @@ func infected_store(c *gin.Context) {
     })
 }
 
+func healthyCheck(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"res": "healthy",
+	})
+}
+
 func main() {
     server := gin.Default()
     project_id := os.Getenv("PROJECT_ID")
@@ -72,6 +78,8 @@ func main() {
 		AllowMethods:     []string{"POST"},
 		AllowHeaders:     []string{"Authorization", "Content-Type", "Upgrade", "Origin", "Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"},
 	}))
-    server.POST("/infected-store", infected_store)
-    server.Run(":9090")
+    server.POST("/infected_store", infected_store)
+	server.GET("/infected_store", healthyCheck)
+	server.GET("/", healthyCheck)
+	server.Run(":80")
 }
