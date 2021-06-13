@@ -63,9 +63,23 @@ func HandleTraceStore(userTraceList UserTraceList) []error {
     muts := make([]*bigtable.Mutation, len(traceList))
     rowKeys := make([]string, len(traceList))
 
+    tblInfo, err := adminClient.TableInfo(ctx, tableName)
+    if err != nil {
+        log.Fatalf("Could not read info for table %s: %v", tableName, err)
+    }
+
     for i, trace := range traceList {
         muts[i] = bigtable.NewMutation()
         columnFamilyName := trace.Class
+
+        // Create column family if it's not yet created
+
+        if !sliceContains(tblInfo.Families, columnFamilyName) {
+            if err := adminClient.CreateColumnFamily(ctx, tableName, columnFamilyName); err != nil {
+                log.Fatalf("Could not create column family %s: %v", columnFamilyName, err)
+            }
+        }
+
         columnName := fmt.Sprintf("%s#%s", trace.Place, trace.Time)
         muts[i].Set(columnFamilyName, columnName, bigtable.Now(), []byte("1"))
         rowKeys[i] = uid
