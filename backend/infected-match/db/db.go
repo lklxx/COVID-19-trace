@@ -14,7 +14,9 @@ type Trace struct {
     Time    string
 }
 
-type TraceList []Trace
+type TraceListS struct {
+    TraceList   []Trace
+}
 
 var adminClient *bigtable.AdminClient
 var client *bigtable.Client
@@ -37,10 +39,10 @@ func InitDB(ac *bigtable.AdminClient, c *bigtable.Client, t []string) {
     tables = t
 }
 
-func HandleInfectedMatch(traceList TraceList) (TraceList, []error) {
+func HandleInfectedMatch(traceList []Trace) ([]Trace, []error) {
 
     ctx := context.Background()
-	var matchedTraceList TraceList
+	var matchedTraceList []Trace
     var errs []error
 
     // Create table if it's not yet created

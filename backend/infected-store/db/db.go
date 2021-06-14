@@ -14,7 +14,9 @@ type Trace struct {
     Time    string
 }
 
-type TraceList []Trace
+type TraceListS struct {
+    TraceList   []Trace
+}
 
 var adminClient *bigtable.AdminClient
 var client *bigtable.Client
@@ -37,7 +39,7 @@ func InitDB(ac *bigtable.AdminClient, c *bigtable.Client, t []string) {
     tables = t
 }
 
-func HandleInfectedStore(traceList TraceList) []error {
+func HandleInfectedStore(traceList []Trace) []error {
 
     ctx := context.Background()
     var errs []error

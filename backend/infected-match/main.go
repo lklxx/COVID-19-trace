@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	// "fmt"
+	"fmt"
 	"cloud.google.com/go/bigtable"
 	"github.com/Leng-Kai/COVID-19-trace/backend/infected-match/db"
 	"github.com/gin-contrib/cors"
@@ -14,9 +14,16 @@ import (
 
 func infected_match(c *gin.Context) {
 
-	traceList := db.TraceList{}
-	c.BindJSON(&traceList)
-	log.Printf("%v", &traceList)
+	traceListS := db.TraceListS{}
+	c.BindJSON(&traceListS)
+    traceList := traceListS.TraceList
+	log.Printf("%v", traceList)
+
+	fmt.Println("trace: [")
+    for i := range traceList {
+        fmt.Println(traceList[i].Class, traceList[i].Place, traceList[i].Time, ",")
+    }
+    fmt.Println("]")
 
 	// db mutation
 	matchedTraceList, err := db.HandleInfectedMatch(traceList)

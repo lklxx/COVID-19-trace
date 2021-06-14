@@ -14,9 +14,10 @@ import (
 
 func infected_store(c *gin.Context) {
 
-    traceList := db.TraceList{}
-	c.BindJSON(&traceList)
-	log.Printf("%v", &traceList)
+    traceListS := db.TraceListS{}
+	c.BindJSON(&traceListS)
+    traceList := traceListS.TraceList
+	log.Printf("%v", traceList)
 
     fmt.Println("trace: [")
     for i := range traceList {
