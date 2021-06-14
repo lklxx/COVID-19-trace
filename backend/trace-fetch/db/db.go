@@ -8,6 +8,10 @@ import (
     "cloud.google.com/go/bigtable"
 )
 
+type User struct {
+    Uid     string
+}
+
 type Trace struct {
     Class   string
     Place   string

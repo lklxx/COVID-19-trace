@@ -14,12 +14,12 @@ import (
 
 func trace_fetch(c *gin.Context) {
 
-	uid := ""
-	c.BindJSON(&uid)
-	log.Printf("%s", &uid)
+    user := db.User{}
+	c.BindJSON(&user)
+	log.Printf("%s", user.Uid)
 
     // db mutation
-    traceList, err := db.HandleTraceFetch(uid)
+    traceList, err := db.HandleTraceFetch(user.Uid)
     res := "success"
     if len(err) != 0 {
         res = "failed"
