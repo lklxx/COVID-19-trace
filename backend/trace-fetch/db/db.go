@@ -76,6 +76,7 @@ func HandleTraceFetch(uid string) (UserTraceList, []error) {
 		for _, item := range itemList {
 			column := item.Column
 			place_time := strings.Split(column, "#")
+            class_place := strings.Split(place_time[0], ":")
 			trace := Trace{ Class: cf, Place: place_time[0], Time: place_time[1] }
 			traceList = append(traceList, trace)
 		}
