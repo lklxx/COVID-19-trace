@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: infected-match
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: infected-match
-          image: gcr.io/covid-19-trace-316609/backend_infected-match:v1.0.2
+          image: gcr.io/covid-19-trace-316609/backend_infected-match:v1.0.5-gc
           ports:
             - containerPort: 80
           env:
@@ -28,7 +28,7 @@ kind: Deployment
 metadata:
   name: infected-store
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: infected-store
-          image: gcr.io/covid-19-trace-316609/backend_infected-store:v1.0.2
+          image: gcr.io/covid-19-trace-316609/backend_infected-store:v1.0.5-gc
           ports:
             - containerPort: 80
           env:
@@ -53,7 +53,7 @@ kind: Deployment
 metadata:
   name: trace-fetch
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: trace-fetch
-          image: gcr.io/covid-19-trace-316609/backend_trace-fetch:v1.0.2
+          image: gcr.io/covid-19-trace-316609/backend_trace-fetch:v1.0.5-gc
           ports:
             - containerPort: 80
           env:
@@ -78,7 +78,7 @@ kind: Deployment
 metadata:
   name: trace-store
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -86,7 +86,7 @@ spec:
     spec:
       containers:
         - name: trace-store
-          image: gcr.io/covid-19-trace-316609/backend_trace-store:v1.0.2
+          image: gcr.io/covid-19-trace-316609/backend_trace-store:v1.0.5-gc
           ports:
             - containerPort: 80
           env:
