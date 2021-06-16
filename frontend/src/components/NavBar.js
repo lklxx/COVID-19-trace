@@ -1,6 +1,6 @@
 import AppBar from '@material-ui/core/AppBar'
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Toolbar, Typography, Link } from '@material-ui/core';
+import { Button, Toolbar, Typography, Link, Grid } from '@material-ui/core';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 
@@ -39,26 +39,19 @@ export default function NavBar(props){
                 <Typography variant="h4" className={classes.title}>
                     {props.context}
                 </Typography>
-                <Link component={RouterLink} to={"/"} color="inherit" variant="body2" underline='none' className={classes.homepagebutton}>
-                    <Button color="inherit">
-                        <Typography variant="h6">home</Typography>
-                    </Button>
-                </Link>
                 {user.isLogin?
                     <>
                         <Redirect from="/login" to="/home"></Redirect>
-                        <Button color="inherit" onClick={() => dispatch({type: "login"})}>
-                            <Typography variant="h6" className={classes.title}>
-                                {user.userName}
+                        <Button color="inherit" onClick={() => dispatch({type: "logout"})}>
+                            <Grid container justify="center"><Grid item>
+                            <Typography variant="h6">
+                                登出
                             </Typography>
+                            </Grid></Grid>
                         </Button>
                     </>
                     :
-                    <Link component={RouterLink} to={"/login"} color="inherit" variant="body2" underline='none' className={classes.homepagebutton}>
-                        <Button color="inherit" onClick={() => dispatch({type: "login"})}>
-                            <Typography variant="h6">登入</Typography>
-                        </Button>
-                    </Link>
+                    <></>
                 }
             </Toolbar>
         </AppBar>

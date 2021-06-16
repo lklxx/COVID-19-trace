@@ -1,9 +1,9 @@
-import { Box, Paper, Grid, makeStyles, TextField, Button, Typography } from '@material-ui/core'
+import { Select, Box, Paper, Grid, makeStyles, TextField, Button, Typography } from '@material-ui/core'
 import { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import timeStamp from "../functions/timeStamp"
 import getTraceList from "../functions/getTraceList"
-import { trace_fetch, trace_store } from "../axios"
+import { infected_match, trace_fetch, trace_store } from "../axios"
 
 const useStyles = makeStyles(theme => ({
     searchbar: {
@@ -33,7 +33,7 @@ export default function SearchBar(props){
     const [endDate, setEndDate] = useState("")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
-    const [traceClass, setTraceClass] = useState("")
+    const [traceClass, setTraceClass] = useState("A")
     const [place, setPlace] = useState("")
     
     const handleChange = (e, type) => {
@@ -49,8 +49,7 @@ export default function SearchBar(props){
         return ( startDate === "" || startTime === "" || endDate === "" || endTime === "" || traceClass === "" || place === "" )
     }
 
-    const handleClick = (e) => {
-        console.log(1)
+    const handleClick = async (e) => {
         if(notFilledIn())alert("請填寫所有位置")
         else if(startDate > endDate || ( startDate === endDate && startTime > endTime ))alert("結束時間早於開始時間")
         else{
@@ -60,11 +59,15 @@ export default function SearchBar(props){
             const ET_split = endTime.split(":")
             const startTimeStamp = timeStamp(SD_split, ST_split, "s")
             const endTimeStamp = timeStamp(ED_split, ET_split, "e")
-            console.log(startTimeStamp, endTimeStamp)
             const traceList = getTraceList(traceClass, place, startTimeStamp, endTimeStamp)
-            dispatch({type: "post", payload:{ traceList }})
-            //trace_store(user.userId, )
-            //infected_tch
+            if(await trace_store(user.userId, traceList)){
+                dispatch({type: "add_trace", payload: {traceList}})
+                const { matchedTraceList } = await infected_match(traceList)
+                if(matchedTraceList){
+                    dispatch({type: "add_matchedTrace", payload: {matchedTraceList}})
+                }
+            }
+            
         }
     }
 
@@ -75,7 +78,6 @@ export default function SearchBar(props){
                     <Grid container justify="center">
                         <Grid item>
                             <TextField
-                                id="date"
                                 label="開始日期"
                                 type="date"
                                 className={classes.textField}
@@ -92,7 +94,6 @@ export default function SearchBar(props){
                         <Grid item>
                             <Box>
                             <TextField
-                                id="date"
                                 label="開始時間"
                                 type="time"
                                 className={classes.textField}
@@ -109,7 +110,6 @@ export default function SearchBar(props){
                     <Grid container justify="center">
                         <Grid item>
                             <TextField
-                                id="date"
                                 label="結束日期"
                                 type="date"
                                 className={classes.textField}
@@ -125,7 +125,6 @@ export default function SearchBar(props){
                     <Grid container justify="center">
                         <Grid item>
                             <TextField
-                                id="date"
                                 label="結束時間"
                                 type="time"
                                 className={classes.textField}
@@ -138,18 +137,33 @@ export default function SearchBar(props){
                     </Grid>
                 </Grid>
                 <Grid item xs={3}>
-                    <TextField
-                        id="date"
+                    {/* <TextField
                         label="class"
                         className={classes.classField}
                         onChange={(e)=>handleChange(e, "tc")}
                         variant="outlined"
-                    />
+                    /> */}
+                    <Select
+                        className={classes.classField}
+                        native
+                        labelId="select-label"
+                        id="select"
+                        value={traceClass}
+                        onChange={(e)=>{
+                            handleChange(e, "tc")
+                        }}
+                        label="類別"
+                    >
+                        <option value={"A"}>甲類</option>
+                        <option value={"B"}>乙類</option>
+                        <option value={"C"}>丙類</option>
+                        <option value={"D"}>丁類</option>
+                        <option value={"E"}>戊類</option>
+                    </Select>
                 </Grid>
                 <Grid item xs={1}/>
                 <Grid item xs={4}>
                     <TextField
-                        id="date"
                         label="地點"
                         className={classes.classField}
                         onChange={(e)=>handleChange(e, "pl")}
@@ -159,7 +173,6 @@ export default function SearchBar(props){
                 <Grid item xs={1}/>
                 <Grid item xs={2}>
                     <Button
-                        label="地點"
                         className={classes.classField}
                         onClick={(e)=>handleClick(e)}
                         variant="contained"

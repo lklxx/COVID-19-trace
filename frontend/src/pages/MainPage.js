@@ -1,18 +1,24 @@
 import { useState } from "react"
-import { shallowEqual, useSelector } from "react-redux"
+import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import NavBar from "../components/NavBar"
 import TraceBar from "../components/TraceBar"
 import PostBar from "../components/PostBar"
-import { trace_fetch, infected_match, trace_store } from "../axios"
+import { trace_fetch, infected_match, trace_store, infected_store } from "../axios"
 
 export default function MainPage(){
 
     const user = useSelector(state=>state.user, shallowEqual)
+    const dispatch = useDispatch()
 
     useState( async () => {
-        await trace_store("123", "123")
-        // await trace_fetch(user.userId)
-        // await infected_match(user.trace)
+        const {traceList} = await trace_fetch(user.userId)
+        if(traceList){
+            dispatch({type: "reset_trace", payload: {traceList}})
+            const { matchedTraceList } = await infected_match(traceList)
+            if(matchedTraceList){
+                dispatch({type: "reset_matchedTrace", payload: {matchedTraceList}})
+            }
+        }
     })
 
     return(
