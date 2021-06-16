@@ -4,6 +4,7 @@ import (
     "context"
     // "fmt"
     "log"
+    "strings"
     _ "github.com/joho/godotenv/autoload"
     "cloud.google.com/go/bigtable"
 )
@@ -71,7 +72,8 @@ func HandleInfectedMatch(traceList []Trace) ([]Trace, []error) {
 		for cf, itemList := range row {
 			if cf != trace.Class { continue }
 			for _, item := range itemList {
-				column := item.Column
+                family_column := strings.Split(item.Column, ":")
+				column := family_column[1]
 				if column != trace.Place { continue }
 				goto trace_matched
 			}

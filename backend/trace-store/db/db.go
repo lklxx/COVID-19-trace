@@ -4,6 +4,8 @@ import (
     "context"
     "fmt"
     "log"
+    "strconv"
+    "time"
     _ "github.com/joho/godotenv/autoload"
     "cloud.google.com/go/bigtable"
 )
@@ -80,8 +82,17 @@ func HandleTraceStore(userTraceList UserTraceList) []error {
             }
         }
 
+        curTime := time.Now().Unix()
+        curOffset := curTime % 2592000
+        traceOffset, _ := strconv.Atoi(trace.Time)
+        traceTimeStamp := curTime - (curOffset - int64(traceOffset))
+        if traceTimeStamp > curTime {
+            traceTimeStamp -= 2592000
+        }
+        timeStamp := bigtable.Timestamp(traceTimeStamp * 1000000)
+
         columnName := fmt.Sprintf("%s#%s", trace.Place, trace.Time)
-        muts[i].Set(columnFamilyName, columnName, bigtable.Now(), []byte("1"))
+        muts[i].Set(columnFamilyName, columnName, timeStamp, []byte("1"))
         rowKeys[i] = uid
     }
 
