@@ -76,7 +76,7 @@ func main() {
 
     server.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
-		AllowMethods:     []string{"POST"},
+		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Authorization", "Content-Type", "Upgrade", "Origin", "Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"},
 	}))
     server.POST("/infected_store", infected_store)
