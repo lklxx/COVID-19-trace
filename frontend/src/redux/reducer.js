@@ -48,7 +48,7 @@ const rootReducer = (state = initialState, action) => {
                     trace: action.payload.traceList.sort(compareTime)
                 })
             })
-        case "add_matcedTrace":
+        case "add_matchedTrace":
             return Object.assign({}, state, {
                 user: Object.assign({}, state.user, {
                     matchedTrace: state.user.matchedTrace.concat(action.payload.matchedTraceList).sort(compareTime)

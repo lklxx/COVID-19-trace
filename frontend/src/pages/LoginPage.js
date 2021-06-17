@@ -51,6 +51,7 @@ export default function LoginPage(){
                                     variant="outlined"
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
+                                    onKeyDown={(e) => {if(e.keyCode === 13){handleClick()}}}
                                 />
                                 <Button 
                                     className={classes.classField} 

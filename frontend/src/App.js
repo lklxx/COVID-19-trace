@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
-import { trace_store, trace_fetch, infected_store, infected_match } from "./axios";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage"
 import { Redirect, Route, Switch } from "react-router";

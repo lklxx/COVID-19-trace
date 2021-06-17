@@ -1,8 +1,8 @@
 import AppBar from '@material-ui/core/AppBar'
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Toolbar, Typography, Link, Grid } from '@material-ui/core';
+import { Button, Toolbar, Typography, Grid } from '@material-ui/core';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
