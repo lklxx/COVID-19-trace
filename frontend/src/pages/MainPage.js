@@ -3,7 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import NavBar from "../components/NavBar"
 import TraceBar from "../components/TraceBar"
 import PostBar from "../components/PostBar"
-import { trace_fetch, infected_match, trace_store, infected_store } from "../axios"
+import { trace_fetch, infected_match } from "../axios"
 
 export default function MainPage(){
 

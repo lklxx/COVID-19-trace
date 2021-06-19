@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const instance = axios.create({ baseURL: 'http://34.120.123.158' })
+const instance = axios.create({ baseURL: process.env.REACT_APP_BASE_URL })
 
 const trace_store = async (uid, traceList) => {
   let message = { uid, traceList }
@@ -23,6 +23,7 @@ const trace_store = async (uid, traceList) => {
 }
 
 const trace_fetch = async (uid) => {
+  console.log(process.env.REACT_APP_BASE_URL)
   let message = { uid }
   console.log("send trace_fetch:", message)
   const { data } = await instance.post('/trace_fetch', message)

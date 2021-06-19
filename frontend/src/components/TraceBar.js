@@ -12,6 +12,24 @@ const useStyle = makeStyles(theme => ({
         marginTop: "20px"
     }
 }))
+
+const TRACE_CLASS = (tc) => {
+    switch(tc){
+        case "A":
+            return "甲類"
+        case "B":
+            return "乙類"
+        case "C":
+            return "丙類"
+        case "D":
+            return "丁類"
+        case "E":
+            return "戊類"
+        default:
+            return "error"
+    }
+}
+
 export default function TraceBar(){
 
     const classes = useStyle()
@@ -56,7 +74,7 @@ export default function TraceBar(){
                                             {`${expressTime(getTime(t.Time))}`}
                                         </Typography>
                                         <Typography variant="h6">
-                                            {`類別: ${t.Class}`}
+                                            {`類別: ${TRACE_CLASS(t.Class)}`}
                                         </Typography>
                                         <Typography variant="h6">
                                             {`地點: ${t.Place}`}
@@ -81,7 +99,7 @@ export default function TraceBar(){
                                             {`${expressTime(getTime(t.Time))}`}
                                         </Typography>
                                         <Typography variant="h6">
-                                            {`類別: ${t.Class}`}
+                                            {`類別: ${TRACE_CLASS(t.Class)}`}
                                         </Typography>
                                         <Typography variant="h6">
                                             {`地點: ${t.Place}`}

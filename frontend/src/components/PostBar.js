@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import timeStamp from "../functions/timeStamp"
 import getTraceList from "../functions/getTraceList"
-import { infected_match, trace_fetch, trace_store } from "../axios"
+import { infected_match, trace_store } from "../axios"
 
 const useStyles = makeStyles(theme => ({
     searchbar: {
